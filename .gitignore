@@ -1,0 +1,44 @@
+# Python virtual environment
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+# build/
+# dist/
+# *.egg-info/
+
+# Unit test / coverage reports
+# .tox/
+# .coverage
+# .coverage.*
+# .cache
+# nosetests.xml
+# coverage.xml
+
+# Environments
+# .env
+# .venv
+# env/
+# ENV/
+# env.bak/
+# venv.bak/
+
+# PyInstaller
+# *.spec
+
+# Installer logs
+# pip-log.txt
+# pip-delete-this-directory.txt
+
+# Sphinx documentation
+# docs/_build/
+
+# Jupyter Notebook
+# .ipynb_checkpoints
+
+# Pyre type checker
+# .pyre/
