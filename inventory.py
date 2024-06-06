@@ -26,18 +26,6 @@ class Inventory:
         # Set a counter for the sale number
         self.next_sale = 1
 
-    def process_sale(self, isbn: str, qty: int) -> str:
-        """Process a sale for a specific quantity of a specific book."""
-        # First check there is enough stock in the inventory, and if so remove it
-        outcome: bool = self.remove_book(isbn, qty)
-        if not outcome:
-            return "Insufficient stock"
-        # Process the sale
-        sale = {"sale_number": self.next_sale, "isbn": isbn, "datetime": datetime.now(), "qty": qty}
-        self.sales.append(sale)
-        self.next_sale += 1
-        return "Success"
-
     def add_book(self, book: Book, quantity: int) -> None:
         # check if the book is already in the inventory
         if book.ISBN in self.books:
@@ -61,6 +49,18 @@ class Inventory:
             return True
         # if there weren't enough books to remove, return False
         return False
+    
+    def process_sale(self, isbn: str, qty: int) -> str:
+        """Process a sale for a specific quantity of a specific book."""
+        # First check there is enough stock in the inventory, and if so remove it
+        outcome: bool = self.remove_book(isbn, qty)
+        if not outcome:
+            return "Insufficient stock"
+        # Process the sale
+        sale = {"sale_number": self.next_sale, "isbn": isbn, "datetime": datetime.now(), "qty": qty}
+        self.sales.append(sale)
+        self.next_sale += 1
+        return "Success"
     
     # To make this program a proper backend, rather than printing results they should be returned
     # This would enable a front end to process and display them.
@@ -114,9 +114,6 @@ class Inventory:
         except Exception as e:
             return str(e)
 
-    # Add handling of transactions - implement a method to record sales. Remove from inventory and log
-    # the sale with book, qty, time. Have a way to store this and query it.
-
 
 # Set up some things to run for testing purposes:
 
@@ -129,28 +126,28 @@ book1 = Book("How to Python", "Some Nerd", "123")
 book2 = Book("How to Play Rugby", "Some Lad", "321")
 book3 = Book("How to Make Money", "Some Scammer", "888")
 
-library_inventory = Inventory()
-library_inventory.add_book(book1, 5)
-library_inventory.add_book(book2, 8)
-library_inventory.add_book(book3, 99)
+store_inventory = Inventory()
+store_inventory.add_book(book1, 5)
+store_inventory.add_book(book2, 8)
+store_inventory.add_book(book3, 99)
 # list inventory to verify books have been added
-library_inventory.list_inventory()
+store_inventory.list_inventory()
 
-response = library_inventory.save_data(inventory_data_path)
+response = store_inventory.save_data(inventory_data_path)
 print(response)
 # remove some books
-library_inventory.remove_book(book3.ISBN, 10)
+store_inventory.remove_book(book3.ISBN, 10)
 # check it worked
-library_inventory.list_inventory()
+store_inventory.list_inventory()
 # run a search
-library_inventory.search_books("Rugby")
+store_inventory.search_books("Rugby")
 # load the data from before the books were removed
-response = library_inventory.load_data(inventory_data_path)
+response = store_inventory.load_data(inventory_data_path)
 print(response)
 # confirm we are back at initial stock level
-library_inventory.list_inventory()
+store_inventory.list_inventory()
 # process a sale
-library_inventory.process_sale("123", 3)
+store_inventory.process_sale("123", 3)
 # confirm stock level has been reduced and the sale recorded
-library_inventory.list_inventory()
-print(library_inventory.sales)
+store_inventory.list_inventory()
+print(store_inventory.sales)
